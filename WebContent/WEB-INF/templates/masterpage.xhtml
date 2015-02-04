@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en">
+<f:view>
+<h:head>
+<ui:insert name="title-content"/>
+<meta name="viewport" content="height=device-height, width=device-width, initial-scale=1" />
+
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="styles/style.css" />
+<script data-main="scripts/main" src="scripts/require.js"></script>
+</h:head>
+<h:body>
+	<header>
+		<nav>
+		<h:form id="nav-form" name="nav-form" prependId="false">
+			 <ui:insert name="header-content">
+				<h:commandLink action="#{authController.logout}" outcome="index.html" style="margin-top: 10px;float:right; padding-right:15px; background-image:url(images/sprites.png); width:32px; height:32px;" title="Sign Out"/>
+			</ui:insert>
+		</h:form>
+		</nav>
+	</header>
+	<ui:insert name="main-content"/>
+	<footer>
+		<ui:insert name="footer-content"/>
+	</footer>
+</h:body>
+</f:view>
+</html>

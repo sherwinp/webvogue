@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/masterpage.xhtml">
+   <ui:define name="title-content">
+   	<title>Web Vogue - Manager</title>
+   </ui:define>
+ 	<ui:define name="main-content">
+	<main class="main-login">
+	<h:form id="form" name="form">
+		<ul>
+			<li style="padding-right: 8px;">
+				<img src="qrcode?s=2"	style="width: 60px; height: 60px;" alt="qrcode"/>
+			</li>
+			<li>
+				<p>
+					<h:messages id="messages" errorStyle="color:red;" />
+				</p>
+			</li>
+		</ul>
+	</h:form>
+	</main>
+	</ui:define>
+</ui:composition>

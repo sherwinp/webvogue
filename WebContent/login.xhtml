@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/masterpage.xhtml">
+   <ui:define name="title-content">
+      	<title>Web Vogue - Login</title>
+   </ui:define>
+   <ui:define name="header-content">
+   		<header></header>
+ 	</ui:define>
+ 	<ui:define name="main-content">
+	<main class="main-login">
+	<h:form id="form" name="form" prependId="false" method="post" >
+		<ul>
+			<li style="padding-right: 8px;">
+				<img src="qrcode?s=2"	style="width: 60px; height: 60px;" alt="qrcode"/>
+			</li>
+			<li><label>Login:</label> 
+				<label for="j_username">User Name:</label> 
+				<h:inputText id="j_username" name="j_username" required="true"
+						requiredMessage="Username Required "	value="#{authController.username}" /> 
+				<label	for="j_password">Password:</label>
+				<h:inputSecret id="j_password" name="j_password" required="true" 
+								requiredMessage="Password Required " value="#{authController.password}" />
+				<label for="login-button"></label>
+				<h:commandButton  id="login-button" name="login-button" action="#{authController.login}" value="log in" />
+		
+				<p>
+					<h:messages id="messages" errorStyle="color:red;" />
+				</p>
+			</li>
+		</ul>
+	</h:form>
+	<script	type="text/javascript">
+	require([ 'login' ], function(login) {
+		console.log('loaded.');
+		window.setInterval(login.loginwatch, 6000);
+	});
+	</script>
+	</main>
+</ui:define>
+</ui:composition>

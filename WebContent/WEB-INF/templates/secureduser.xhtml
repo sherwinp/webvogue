@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   template="/WEB-INF/templates/masterpage.xhtml">
+   <ui:define name="title-content">
+   	<title>Web Vogue - User</title>
+   </ui:define>
+ 	<ui:define name="main-content">
+	<main class="main-login">
+		<h:form id="form" name="form" prependId="false" method="post" >
+				<div id="voucherslist">
+					
+				</div>
+
+		</h:form>
+		<script type="text/javascript">
+		  	function doGeolocation() {
+			    if (navigator.geolocation) {
+			      navigator.geolocation.getCurrentPosition(positionSuccess, positionError);
+			    } else {
+			      positionError(-1);
+			    }
+			}
+		    function positionError(err) {
+		        var msg;
+		        switch(err.code) {
+		          case err.UNKNOWN_ERROR:
+		            msg = "Unable to find your location";
+		            break;
+		          case err.PERMISSION_DENINED:
+		            msg = "Permission denied in finding your location";
+		            break;
+		          case err.POSITION_UNAVAILABLE:
+		            msg = "Your location is currently unknown";
+		            break;
+		          case err.BREAK:
+		            msg = "Attempt to find location took too long";
+		            break;
+		          default:
+		            msg = "Location detection not supported in browser";
+		        }
+		        document.getElementById('info').innerHTML = msg;
+		     }
+		    function positionSuccess(position) {
+		    	
+		    }
+		    require(['jquery', 'handlebars'],  function(){
+				doGeolocation();
+				
+				$.ajax({
+					   url: 'api/vouchers',
+					   data: {
+					      format: 'json'
+					   },
+					   error: function() {
+						   console.log( "error ajax: load. " );
+					   },
+					   dataType: 'json',
+					   success: function(data) {
+						   console.log( "success." );
+				            var Source = document.getElementById('container-template').textContent;
+				            // Compile Template 
+				            var Template = Handlebars.compile(Source);
+				            console.log(data);
+				            $('#voucherslist').html(Template(data));
+					   },
+					   type: 'GET'
+					});
+			});
+		    function viewitem(id){
+		    	console.log("pressed item.");
+				$.ajax({
+					   url: 'api/vouchers/'+id,
+					   data: {
+					      format: 'json'
+					   },
+					   error: function() {
+						   console.log( "error ajax: load. " );
+					   },
+					   dataType: 'json',
+					   success: function(data) {
+						   console.log( "success." );
+				            var Source = document.getElementById('item-template').textContent;
+				            // Compile Template 
+				            var Template = Handlebars.compile(Source);
+				            console.log(data);
+
+				            $('#voucherslist').html(Template(data));
+					   },
+					   type: 'GET'
+					});
+		    }
+		</script>
+		<script id="item-template" type="x-handlebars-template">
+            <ul id="vouchers">
+               <li><img src="qrcode_purchase?s=3&amp;d={{id}}"/><span>redeemable item: {{id}} -- {{descr}}</span><img style="width:32px;height:24px;" src="images/{{descr}}"/></li>
+            </ul>
+		</script>
+	    <script id="container-template" type="x-handlebars-template">
+            <ul id="vouchers">
+           	  {{#each this}}
+               <li><a href="#" onclick="javascript:viewitem({{this.id}});return false;">redeemable item: {{this.descr}}</a><img style="width:32px;height:24px;" src="images/{{this.descr}}"/></li>
+              {{/each}}
+            </ul>
+        </script>
+	</main>
+	</ui:define>
+</ui:composition>

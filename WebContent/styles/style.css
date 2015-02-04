@@ -1,0 +1,45 @@
+body{   
+ 	font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
+ 	padding:0px;
+ 	margin: 0px;
+
+ 	background-color: #040404; background-image: linear-gradient(#222, #040404); background-repeat: no-repeat; background-size: 100% 100%;
+}
+header{
+}
+header img#logo{
+	width:96px;
+	height:32px;
+}
+.main-login{
+	position:absolute;
+	top: 80px;
+	height: 80%;
+	width: 100%;
+	background-image: url("../images/background.jpg");
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+.main-login form ul{
+	list-style:none;
+}
+.main-login form ul li{
+	float:left;
+}
+.main-login form label {
+	display: block;
+}
+.main-login form {
+	width: 80%;
+	height: 100px;
+	padding-left: 60px;
+	padding-top: 50px;
+}
+#voucherslist ul li{
+	display:block;
+	float:none;
+	padding-bottom: 32px;
+}
+
+footer{
+}
