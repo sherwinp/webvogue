@@ -22,26 +22,23 @@ public class VoucherResource  {
 	}
 	
 @GET
+@Path("/findAllForUser")
+@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public Response getVouchers() {
+public Response findAllForUser() {
 	ResponseBuilder rsBuilder = Response.status(Response.Status.OK);
 	
-	return rsBuilder.entity(dao.findAll()).build();
+	return rsBuilder.entity(dao.findAllForUser()).build();
 }
+
+
 @GET
-@Path("/{id}")
+@Path("/findAllForUser/{id}")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public Response getVoucher(@PathParam("id") int voucherId){
 	ResponseBuilder rsBuilder = Response.status(Response.Status.OK);
 	Voucher voucher = dao.find(voucherId);
 	return rsBuilder.entity(voucher).build();
-}
-@PUT
-@Path("/{id}")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public Response setVoucher(@PathParam("id") int voucherId){
-	return Response.status(Response.Status.CREATED).build();
 }
 }

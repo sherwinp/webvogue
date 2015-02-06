@@ -67,8 +67,8 @@ public class AuthController implements Serializable  {
 			role = "users";
 		}else if(result & request.isUserInRole("vendors")){
 			role = "vendors";
-		}else if(result & request.isUserInRole("managers")){
-			role = "managers";
+		}else if(result & request.isUserInRole("manager")){
+			role = "manager";
 		}
 		return role;
 	}

@@ -15,7 +15,7 @@ public class PageTemplateController  implements Serializable {
 	public String getTemplate(){
 		switch(AuthController.getUserRole(FacesContext.getCurrentInstance())){
 		case "manager":
-			return "/WEB-INF/templates/securedadmin.xhtml";
+			return "/WEB-INF/templates/securedmanager.xhtml";
 		case "vendors":
 			return "/WEB-INF/templates/securedvendor.xhtml";
 		default: 

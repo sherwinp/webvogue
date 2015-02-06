@@ -49,6 +49,42 @@ public class VoucherDAService extends GenericDataAccessService<Voucher, Integer>
 		return list;
 	}
 
+	public Vouchers findAllForUser() {
+		Vouchers list = new Vouchers();
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+		try {
+			list =  (Vouchers) execute("SELECT vouchers._id, vouchers.refitem, voucheruser.*"
+										+ " FROM voucheruser JOIN vouchers ON vouchers._id=voucheruser.voucher_id"
+										+ " LEFT OUTER JOIN uservendor on  uservendor.voucheruser_id = voucheruser._id" 
+										+ " WHERE  a_user_vendor_id ISNULL", parameters, new mapped_values() );
+			
+		} catch (NamingException ex) {
+			log.warning(ex.getMessage());
+		} catch (SQLException ex) {
+			log.warning(ex.getMessage());
+		} finally {
+
+		}
+		return list;
+	}
+	
+	public Vouchers findAllForVendor() {
+		Vouchers list = new Vouchers();
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+		try {
+			list =  (Vouchers) execute("SELECT vouchers._id, vouchers.refitem, uservendor.*"
+										+ " FROM voucheruser JOIN vouchers ON vouchers._id=voucheruser.voucher_id"
+										+ " JOIN uservendor on voucheruser._id = uservendor.voucheruser_id", parameters, new mapped_values() );
+			
+		} catch (NamingException ex) {
+			log.warning(ex.getMessage());
+		} catch (SQLException ex) {
+			log.warning(ex.getMessage());
+		} finally {
+
+		}
+		return list;
+	}
    private class mapped_values implements IMapped_Values{
 	@Override
 	public Vouchers maptovalues(ResultSet rs) throws SQLException{

@@ -49,7 +49,7 @@
 				doGeolocation();
 				
 				$.ajax({
-					   url: 'api/vouchers',
+					   url: 'api/vouchers/findAllForUser',
 					   data: {
 					      format: 'json'
 					   },
@@ -71,7 +71,7 @@
 		    function viewitem(id){
 		    	console.log("pressed item.");
 				$.ajax({
-					   url: 'api/vouchers/'+id,
+					   url: 'api/vouchers/findAllForUser/'+id,
 					   data: {
 					      format: 'json'
 					   },
@@ -94,13 +94,13 @@
 		</script>
 		<script id="item-template" type="x-handlebars-template">
             <ul id="vouchers">
-               <li><img src="qrcode_purchase?s=3&amp;d={{id}}"/><span>redeemable item: {{id}} -- {{descr}}</span><img style="width:32px;height:24px;" src="images/{{descr}}"/></li>
+               <li><img src="qrcode_purchase?s=3&amp;d={{id}}"/><span>redeemable item: {{id}} -- {{descr}}</span><img style="width:64px;height:64px;" src="images/{{descr}}"/></li>
             </ul>
 		</script>
 	    <script id="container-template" type="x-handlebars-template">
             <ul id="vouchers">
            	  {{#each this}}
-               <li><a href="#" onclick="javascript:viewitem({{this.id}});return false;">redeemable item: {{this.descr}}</a><img style="width:32px;height:24px;" src="images/{{this.descr}}"/></li>
+               <li><a href="#" onclick="javascript:viewitem({{this.id}});return false;">redeemable item: {{this.descr}}</a><img style="width:64px;height:64px;" src="images/{{this.descr}}"/></li>
               {{/each}}
             </ul>
         </script>
