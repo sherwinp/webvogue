@@ -84,6 +84,29 @@ public abstract class GenericDataAccessService<EntityType, PrimaryKeyType extend
  			ic = null;
  		}
     }
+    protected void execute(Integer result, String commandText, Map<String, Object> parameters, IMapped_Values imv) throws NamingException, SQLException{
+    	InitialContext ic = new InitialContext();
+ 		try {
+ 			String dsName = "java:jboss/datasources/DemoDSsqlite";
+ 			DataSource ds = (javax.sql.DataSource) ic.lookup(dsName);
+ 			Connection connection = ds.getConnection();
+ 			try {
+ 				PreparedStatement statement = connection.prepareStatement(commandText);
+ 				imv.fill_parameters( statement, parameters);
+ 				try {
+ 					result = statement.executeUpdate();
+ 				} finally {
+ 					statement.close();
+ 				}
+
+ 			} finally {
+ 				connection.close();
+ 			}
+ 		} finally {
+ 			ic.close();
+ 			ic = null;
+ 		}
+    }
     interface IMapped_Values{
  	   List<?> maptovalues(ResultSet rs) throws SQLException;
  	  void fill_parameters(PreparedStatement statement, Map<String, Object> parameters) throws SQLException;

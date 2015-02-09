@@ -90,9 +90,8 @@ public class VoucherDAService extends GenericDataAccessService<Voucher, Integer>
 		parameters.put("voucheruser_id", itemId);
 		parameters.put("a_user_user_id", userId);
 		parameters.put("a_user_vendor_id", vendorId);
-		Vouchers list = new Vouchers();
-		
-		list = (Vouchers) execute("INSERT INTO uservendor (voucheruser_id, a_user_user_id, a_user_vendor_id) VALUES(?, ?, ?)", 
+		Integer result =-1;
+	    execute(result, "INSERT INTO uservendor (voucheruser_id, a_user_vendor_id, a_user_user_id) VALUES(?, ?, ?);", 
 				parameters, new mapped_values());
 		return true;
 	}
@@ -108,7 +107,8 @@ public class VoucherDAService extends GenericDataAccessService<Voucher, Integer>
 	public void fill_parameters(PreparedStatement statement, Map<String, Object> parameters) throws SQLException{
 		int idx = 1;
 		for (Map.Entry<String, Object> e: parameters.entrySet()){
-				statement.setObject(idx++, e.getValue());
+				statement.setObject(idx, e.getValue());
+				idx++;
 			}
 	}
    }

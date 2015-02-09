@@ -63,7 +63,9 @@ public class AuthController implements Serializable  {
 			
 			log.warning(String.format("!! Authenticated !! %s session: %s", request.getUserPrincipal().getName(), request.getSession().getId()));
 			
-			session.setAttribute("user", users.get(0));
+			User user =  users.get(0);
+			
+			session.setAttribute("user", user);
 		}
 
 		return landingPage;

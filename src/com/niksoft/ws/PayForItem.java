@@ -19,6 +19,7 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 import com.niksoft.dao.PayDAService;
+import com.niksoft.dao.User;
 import com.niksoft.dao.UserDAService;
 import com.niksoft.dao.VoucherDAService;
 import com.niksoft.web.HttpSessionCollector;
@@ -52,28 +53,31 @@ public Response getPayment(@Context HttpServletRequest request){
 	
 }
 @POST
-@Path("/payMent")
+@Path("/payMent/{item}/{userdsessionid}")
 @Produces(MediaType.APPLICATION_JSON)
-public Response setPayment(@Context HttpServletRequest request){
+public Response setPayment(@PathParam("item") int itemId, @PathParam("userdsessionid") String usersessionString, @Context HttpServletRequest request) throws Exception{
 	
 	ResponseBuilder rsBuilder = Response.status(Response.Status.OK);
 	
+	log.info(String.format("User selected ItemId: %s", itemId));
+	
+	log.info(String.format("User sessionString to find: %s", usersessionString));
+	
 	HttpSession session = request.getSession(false);
 	if( session != null )
-		log.info(String.format("%s", session.getId()));
+		log.info(String.format("Vendor jsessionid: %s", session.getId()));
+	else throw new Exception("Argument Expected.");
 	
-	Enumeration<String> names = request.getParameterNames();
-	for(;names.hasMoreElements();){
-		Object o = names.nextElement();
-		log.info(String.format("%s", o));
-	}
-	log.info(String.format("querystring: %s", request.getQueryString()));
-	int beginIndex = request.getQueryString().lastIndexOf("jsessionid=");
-	String sessionString = request.getQueryString().substring(beginIndex + 11, request.getQueryString().length());
-	log.info(String.format("sessionstring: %s", sessionString));
-	HttpSession userSession = HttpSessionCollector.find(sessionString);
+	HttpSession userSession = HttpSessionCollector.find(usersessionString);
 	if( userSession != null )
 		log.info(String.format(" User Session: %s", userSession.getId()));
+	else throw new Exception("Argument Expected.");
+	
+	User vendor= (User) session.getAttribute("user");
+	User user = (User) userSession.getAttribute("user");
+	
+	VoucherDAService service = new VoucherDAService();
+	service.claimVoucher(itemId, user.getId(), vendor.getId());
 	
 	return rsBuilder.entity(new String("Accepted")).build();
 }

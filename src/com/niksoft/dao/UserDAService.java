@@ -69,7 +69,11 @@ public class UserDAService extends GenericDataAccessService<User, Integer> {
 		public Users maptovalues(ResultSet rs) throws SQLException{
 			  Users list = new Users();
 				while(rs.next()){
-					list.add(new User(rs.getInt(1), rs.getString(2)));
+					User user = new User(rs.getInt(1), rs.getString(2));
+					user.setEmail(rs.getString(5));
+					user.setCity(rs.getString(3));
+					user.setZip(rs.getString(4));
+					list.add(user);
 				}
 			  return list;
 		}

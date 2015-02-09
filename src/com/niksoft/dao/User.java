@@ -38,7 +38,8 @@ public class User {
 		
 	}
 	public User(int id, String name){
-		
+		this.id = id;
+		this.username = name;
 	}
 
 	@XmlElement(name="id") private int id;
