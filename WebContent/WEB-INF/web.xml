@@ -11,6 +11,10 @@
   
 	<display-name>webdemo</display-name>
 
+	<listener>
+    	<listener-class>com.niksoft.web.HttpSessionCollector</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>qrcode</servlet-name>
 		<servlet-class>com.niksoft.web.EncodeLoginTransaction</servlet-class>

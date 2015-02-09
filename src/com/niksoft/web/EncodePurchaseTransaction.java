@@ -9,7 +9,7 @@ public class EncodePurchaseTransaction extends com.d_project.qrcode.web.QRCodeSe
 	@Override
 	public String EncodeData(HttpServletRequest request) {
 		String data = request.getParameter("d");
-		return String.format("%s://%s:%s%s/%s/%s;jsessionid=%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), "api/pay", data, request.getSession(false) != null ? request.getSession(false).getId() : "");
+		return String.format("%s://%s:%s%s/%s?item=%s;jsessionid=%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), "api/pay/payMent", data, request.getSession(false) != null ? request.getSession(false).getId() : "");
 	}
 
 }

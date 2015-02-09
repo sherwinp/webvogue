@@ -85,6 +85,17 @@ public class VoucherDAService extends GenericDataAccessService<Voucher, Integer>
 		}
 		return list;
 	}
+	public boolean claimVoucher(Integer itemId, Integer userId, Integer vendorId) throws NamingException, SQLException{
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("voucheruser_id", itemId);
+		parameters.put("a_user_user_id", userId);
+		parameters.put("a_user_vendor_id", vendorId);
+		Vouchers list = new Vouchers();
+		
+		list = (Vouchers) execute("INSERT INTO uservendor (voucheruser_id, a_user_user_id, a_user_vendor_id) VALUES(?, ?, ?)", 
+				parameters, new mapped_values());
+		return true;
+	}
    private class mapped_values implements IMapped_Values{
 	@Override
 	public Vouchers maptovalues(ResultSet rs) throws SQLException{

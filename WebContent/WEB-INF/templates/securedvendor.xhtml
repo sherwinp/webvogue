@@ -13,6 +13,7 @@
 			<li style="padding-right: 8px;">
 				<img src="qrcode?s=2"	style="width: 60px; height: 60px;" alt="qrcode"/>
 			</li>
+			<li id="voucherslist" style="clear:both;"></li>
 			<li>
 				<p>
 					<h:messages id="messages" errorStyle="color:red;" />
@@ -20,6 +21,38 @@
 			</li>
 		</ul>
 	</h:form>
+	<script type="text/javascript">
+	require(['jquery', 'handlebars'],  function(){
+				console.log("findallpayments");
+				$.ajax({
+					   url: 'api/pay/findAllForVendor',
+					   data: {
+					      format: 'json'
+					   },
+					   error: function() {
+						   console.log( "error ajax: load. " );
+					   },
+					   dataType: 'json',
+					   success: function(data) {
+						   console.log( "success." );
+				            var Source = document.getElementById('container-template').textContent;
+				            // Compile Template 
+				            var Template = Handlebars.compile(Source);
+				            console.log(data);
+				            $('#voucherslist').html(Template(data));
+					   },
+					   type: 'GET'
+					});
+			});
+     
+	</script>
+	<script id="container-template" type="x-handlebars-template">
+		 <ul id="vouchers">
+           	  {{#each this}}
+               <li><a href="#" onclick="javascript:viewitem({{this.id}});return false;">claimed item: {{this.descr}}</a><img style="width:64px;height:64px;" src="images/{{this.descr}}"/></li>
+              {{/each}}
+         </ul>
+	</script>
 	</main>
 	</ui:define>
 </ui:composition>

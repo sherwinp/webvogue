@@ -11,6 +11,11 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.niksoft.dao.User;
+import com.niksoft.dao.UserDAService;
+import com.niksoft.dao.Users;
 
 @ManagedBean
 @SessionScoped
@@ -29,30 +34,36 @@ public class AuthController implements Serializable  {
 		request.getSession().invalidate();
 		return "/index.html?faces-redirect=true&";
 	}
-	public String login() {
+	public String login() throws Exception {
 		FacesContext context = FacesContext.getCurrentInstance();
 
 		HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 		HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
 		String landingPage = "/index.html";
-
-		try {
-			request.getSession().setMaxInactiveInterval(240);
-			request.login(username, password);
-			
-			log.info(String.format("HTTP_REFERER -- %s", request.getHeader("referer")));
-
-		} catch (ServletException ex) {
-			context.addMessage(null, new FacesMessage(ex.getMessage()));
-		}
+		try{
+		request.getSession().setMaxInactiveInterval(240);
 		
+		request.login(username, password);
+		}catch(Exception ex){
+			
+		}
 		if (request.getUserPrincipal() == null) {
 			context.addMessage(null, new FacesMessage("Unknown login"));
 			log.info(request.getSession().getId());
 
 		} else {
 			landingPage = "/index.html?faces-redirect=true&";
+			
+			log.info(String.format("HTTP_REFERER -- %s", request.getHeader("referer")));
+			
+			HttpSession session = request.getSession();
+			
+			UserDAService service = new UserDAService();
+			Users users = service.findAllByIdentity(request.getUserPrincipal().getName(), "");
+			
 			log.warning(String.format("!! Authenticated !! %s session: %s", request.getUserPrincipal().getName(), request.getSession().getId()));
+			
+			session.setAttribute("user", users.get(0));
 		}
 
 		return landingPage;
